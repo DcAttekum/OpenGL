@@ -21,10 +21,22 @@ int main(void)
     glfwMakeContextCurrent(window);
 
     // Glew initialization for modern openGL functions
-    /*if (glewInit() != GLEW_OK) {
+    if (glewInit() != GLEW_OK) {
         return -1;
-    }*/
-    glewInit();
+    }
+
+    // Triangle positions
+    float positions[6] = {
+        -0.5f, -0.5f,
+         0.0f,  0.5f,
+         0.5f, -0.5f
+    };
+
+    // Creating a vertex buffer and telling it its size, data and usage.
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window)) {
@@ -32,11 +44,7 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Test Triangle
-        glBegin(GL_TRIANGLES);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f( 0.0f,  0.5f);
-        glVertex2f( 0.5f, -0.5f);
-        glEnd();
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // Swap front and back buffers
         glfwSwapBuffers(window);
